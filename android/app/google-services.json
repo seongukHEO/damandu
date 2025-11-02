@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "204974956557",
+    "project_id": "damandu-59340",
+    "storage_bucket": "damandu-59340.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204974956557:android:30081c523b2adcfb1fb544",
+        "android_client_info": {
+          "package_name": "com.seonguk.damandu.damandu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP_1zixPwBQLm3gaXiKT7KcY6-V_gaSJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
