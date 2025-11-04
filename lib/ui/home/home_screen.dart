@@ -96,18 +96,6 @@ class HomeScreen extends ConsumerWidget {
                         : Icon(Icons.sell_outlined, color: AppColors.gold(9).withOpacity(0.6)),
                     label: "제품",
                   ),
-                  _buildNavigationDestinationWithIndicator(
-                    icon: selectIndex == 3
-                        ? Icon(Icons.auto_stories, color: AppColors.gold(9))
-                        : Icon(Icons.auto_stories_outlined, color: AppColors.gold(9).withOpacity(0.6)),
-                    label: "숙성",
-                  ),
-                  _buildNavigationDestinationWithIndicator(
-                    icon: selectIndex == 4
-                        ? Icon(Icons.person, color: AppColors.gold(9))
-                        : Icon(Icons.person_outline, color: AppColors.gold(9).withOpacity(0.6)),
-                    label: "마이페이지",
-                  ),
                 ],
               ),
             ),
