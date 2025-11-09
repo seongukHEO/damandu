@@ -1,14 +1,22 @@
 
 
 
+import 'package:damandu/ui/home/home_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import 'component/custom_transitions.dart';
 
 
 final GoRouter router = GoRouter(
-  initialLocation: RoutePath.splash,
-    routes: [],
+  initialLocation: RoutePath.home,
+    routes: [
+      GoRoute(
+          path: RoutePath.home,
+          builder: (context, state){
+            return HomeScreen();
+          }
+      ),
+    ],
   observers: [
     GoRouterObserver()
   ]

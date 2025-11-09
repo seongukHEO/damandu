@@ -50,6 +50,36 @@ class AppColors{
     9: Color(0xFF5A3E2B), // 기존 gold 컬러
   };
 
+  static Color limeGold(int shade) {
+    return _limeGold[shade] ?? _limeGold[7]!; // 기본값은 진한 골드
+  }
+
+  static const Map<int, Color> _limeGold = {
+    1: Color(0xFFF9FFE8), // 아주 밝은 라이트 라임골드
+    2: Color(0xFFEBFFB9),
+    3: Color(0xFFDBFF84),
+    4: Color(0xFFAAEB44), // 기준 색상 (중간 톤)
+    5: Color(0xFF89C83A),
+    6: Color(0xFF6BA32F),
+    7: Color(0xFF4F7A23), // 어두운 라임골드
+  };
+
+  static Color navyContrast(int shade) {
+    return _navyContrast[shade] ?? _navyContrast[4]!; // 기본값은 진한 골드
+  }
+
+
+  static const Map<int, Color> _navyContrast = {
+    1: Color(0xFFE8F0FF),
+    2: Color(0xFFB3C8FF),
+    3: Color(0xFF7A9EFF),
+    4: Color(0xFF3366CC), // 메인 포인트
+    5: Color(0xFF204EA8),
+    6: Color(0xFF173A80),
+    7: Color(0xFF0D2759),
+  };
+
+
   static const Map<int, Color> _khakiBeige = {
     1: Color(0xFFFAF6F0), // 아주 밝은 카키 베이지
     2: Color(0xFFF2E9DB),

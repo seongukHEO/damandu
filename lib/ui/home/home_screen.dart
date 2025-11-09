@@ -1,3 +1,5 @@
+import 'package:damandu/widget/location_widget.dart';
+import 'package:damandu/widget/schedule_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/app_colors.dart';
 import '../../common/app_fonts.dart';
 import '../../provider/home/home_provider.dart';
+import '../../widget/home_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -37,14 +40,24 @@ class HomeScreen extends ConsumerWidget {
         }
       },
       child: Scaffold(
+        body: SafeArea(
+            child: IndexedStack(
+              index: selectIndex,
+              children: [
+                HomeWidget(),
+                ScheduleWidget(),
+                LocationWidget(),
+              ],
+            )
+        ),
         bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(
             navigationBarTheme: NavigationBarThemeData(
               labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AppFonts.preSemiBold(size: 12, color: AppColors.gold(9));
+                  return AppFonts.preSemiBold(size: 12, color: AppColors.limeGold(7));
                 }
-                return AppFonts.preRegular(size: 12, color: AppColors.gold(9).withOpacity(0.6));
+                return AppFonts.preRegular(size: 12, color: AppColors.limeGold(7).withOpacity(0.6));
               }),
             ),
           ),
@@ -69,7 +82,7 @@ class HomeScreen extends ConsumerWidget {
                 topRight: Radius.circular(24),
               ),
               child: NavigationBar(
-                backgroundColor: AppColors.khakiBeige(5),
+                backgroundColor: Colors.transparent,
                 onDestinationSelected: (index) {
                   tabNotifier.setIndex(index);
                 },
@@ -80,21 +93,21 @@ class HomeScreen extends ConsumerWidget {
                 destinations: [
                   _buildNavigationDestinationWithIndicator(
                     icon: selectIndex == 0
-                        ? Icon(Icons.home, color: AppColors.gold(9))
-                        : Icon(Icons.home_outlined, color: AppColors.gold(9).withOpacity(0.6)),
+                        ? Icon(Icons.home, color: AppColors.limeGold(7))
+                        : Icon(Icons.home_outlined, color: AppColors.limeGold(7).withOpacity(0.6)),
                     label: "홈",
                   ),
                   _buildNavigationDestinationWithIndicator(
                     icon: selectIndex == 1
-                        ? Icon(Icons.chat, color: AppColors.gold(9))
-                        : Icon(Icons.chat_outlined, color: AppColors.gold(9).withOpacity(0.6)),
-                    label: "숙성 이야기",
+                        ? Icon(Icons.calendar_month, color: AppColors.limeGold(7))
+                        : Icon(Icons.calendar_month_outlined, color: AppColors.limeGold(7).withOpacity(0.6)),
+                    label: "일정",
                   ),
                   _buildNavigationDestinationWithIndicator(
                     icon: selectIndex == 2
-                        ? Icon(Icons.sell, color: AppColors.gold(9))
-                        : Icon(Icons.sell_outlined, color: AppColors.gold(9).withOpacity(0.6)),
-                    label: "제품",
+                        ? Icon(Icons.location_on_sharp, color: AppColors.limeGold(7))
+                        : Icon(Icons.location_on_outlined, color: AppColors.limeGold(7).withOpacity(0.6)),
+                    label: "위치 공유",
                   ),
                 ],
               ),
