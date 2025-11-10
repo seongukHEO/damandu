@@ -48,6 +48,7 @@ dependencies:
   sign_in_with_apple:
   fl_chart: ^0.68.0
   geolocator: ^10.1.0
+  background_locator_2: ^2.0.6
 
 
   firebase_core: ^2.27.0

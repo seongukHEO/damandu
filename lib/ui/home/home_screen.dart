@@ -3,17 +3,41 @@ import 'package:damandu/widget/schedule_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/app_colors.dart';
 import '../../common/app_fonts.dart';
+import '../../core/location/background_location_service.dart';
 import '../../provider/home/home_provider.dart';
 import '../../widget/home_widget.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    _startTracking();
+  }
+
+  Future<void> _startTracking() async {
+    // ✅ SharedPreferences나 로그인 정보에서 userId 불러오기
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('userId') ?? '1'; // 기본값 '1'
+
+    // ✅ 위치 추적 시작
+    await backgroundLocationService.start(userId);
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
     DateTime? lastBackPress;
 
 
@@ -146,3 +170,4 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
+
