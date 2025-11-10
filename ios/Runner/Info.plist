@@ -4,6 +4,14 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+   	<!-- ✅ Google Maps API Key -->
+   	<key>GMSApiKey</key>
+   	<string>AIzaSyB3ohtt1RS5cEawWSDijkoON427n2OvR9g</string>
+    <!-- ✅ 위치 권한 안내 문구 -->
+   	<key>NSLocationWhenInUseUsageDescription</key>
+   	<string>가족 여행 중 내 위치를 표시하기 위해 사용됩니다.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Damandu</string>
 	<key>CFBundleExecutable</key>
