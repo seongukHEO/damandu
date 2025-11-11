@@ -20,20 +20,20 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
 
-  @override
-  void initState() {
-    super.initState();
-    _startTracking();
-  }
-
-  Future<void> _startTracking() async {
-    // ✅ SharedPreferences나 로그인 정보에서 userId 불러오기
-    final prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getString('userId') ?? '1'; // 기본값 '1'
-
-    // ✅ 위치 추적 시작
-    await backgroundLocationService.start(userId);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _startTracking();
+  // }
+  //
+  // Future<void> _startTracking() async {
+  //   // ✅ SharedPreferences나 로그인 정보에서 userId 불러오기
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final userId = prefs.getString('userId') ?? '1'; // 기본값 '1'
+  //
+  //   // ✅ 위치 추적 시작
+  //   await backgroundLocationService.start(userId);
+  // }
 
 
   @override

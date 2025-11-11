@@ -21,10 +21,12 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
   LatLng? _currentPosition;
   bool _isLoading = true;
 
-  // ✅ 파베 데이터 관리용
   final Map<String, Marker> _markerMap = {};
   final int myId = 1; // SharedPreferences로 교체 예정
   late final Stream<List<UserModel>> _userStream;
+
+  // ✅ 클릭된 마커 ID 저장
+  String? _selectedMarkerId;
 
   @override
   void initState() {
@@ -50,7 +52,11 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
   }
 
   /// ✅ id별 색상 지정
-  BitmapDescriptor _getMarkerColor(int id) {
+  BitmapDescriptor _getMarkerColor(int id, {bool selected = false}) {
+    if (selected) {
+      // 클릭 시 더 진한 색상
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure);
+    }
     switch (id) {
       case 1:
         return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
@@ -74,6 +80,33 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
     }
   }
 
+  final List<Map<String, dynamic>> fixedMarkers = [
+    {
+      "id": 5,
+      "name": '만두',
+      "info": "D동 계단",
+      'x': 37.57045463,
+      'y': 126.99213429,
+      "image": ''
+    },
+    {
+      "id": 6,
+      "name": '대만',
+      "info": "D동 화장실",
+      'x': 37.567191,
+      'y': 127.010490,
+      "image": ''
+    },
+    {
+      "id": 7,
+      "name": '대만두?',
+      "info": "D동 에스컬레이터",
+      'x': 37.48502640,
+      'y': 127.01627176,
+      "image": ''
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,20 +124,55 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
             final users = snapshot.data!;
             _markerMap.clear();
 
+            // ✅ 1️⃣ Firebase 사용자 마커 추가
             for (var user in users) {
+              final isSelected =
+                  _selectedMarkerId == 'user_${user.id}';
               final marker = Marker(
-                markerId: MarkerId(user.id.toString()),
+                markerId: MarkerId('user_${user.id}'),
                 position: LatLng(user.lat, user.lng),
                 infoWindow: InfoWindow(title: user.name),
-                icon: _getMarkerColor(user.id),
+                icon:
+                _getMarkerColor(user.id, selected: isSelected),
+                onTap: () {
+                  setState(() {
+                    _selectedMarkerId = 'user_${user.id}';
+                  });
+                },
               );
-              _markerMap[user.id.toString()] = marker;
+              _markerMap['user_${user.id}'] = marker;
+            }
+
+            // ✅ 2️⃣ 고정 마커 추가
+            for (var fm in fixedMarkers) {
+              final id = fm['id'];
+              final isSelected = _selectedMarkerId == 'fixed_$id';
+              final marker = Marker(
+                markerId: MarkerId('fixed_$id'),
+                position: LatLng(fm['x'], fm['y']),
+                infoWindow: InfoWindow(
+                  title: fm['name'],
+                  snippet: fm['info'],
+                ),
+                icon: isSelected
+                    ? BitmapDescriptor.defaultMarkerWithHue(
+                    BitmapDescriptor.hueViolet)
+                    : BitmapDescriptor.defaultMarkerWithHue(
+                    BitmapDescriptor.hueYellow),
+                onTap: () {
+                  setState(() {
+                    _selectedMarkerId = 'fixed_$id';
+                  });
+                },
+              );
+              _markerMap['fixed_$id'] = marker;
             }
 
             return GoogleMap(
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
-                target: _currentPosition ?? const LatLng(37.5665, 126.9780),
+                target: _currentPosition ??
+                    const LatLng(37.5665, 126.9780),
                 zoom: 13,
               ),
               markers: _markerMap.values.toSet(),
@@ -118,3 +186,4 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
     );
   }
 }
+
