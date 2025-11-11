@@ -10,6 +10,8 @@ class AppImages {
 
   static const mokImg = '$_imagePath/mok_image.jpeg';
 
+  static const mokup1 = '$_imagePath/mokup_1.jpeg';
+
   static const mok1 = '$_imagePath/mok_one.jpg';
 
   static const mok2 = '$_imagePath/mok_two.jpg';

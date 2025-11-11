@@ -1,3 +1,4 @@
+import 'package:damandu/common/app_images.dart';
 import 'package:damandu/data/user_data_source.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 
 import 'dart:async';
 import '../model/user_model.dart';
+import 'bottomSheet/fixed_marker_bottom_sheet.dart';
 
 class LocationWidget extends ConsumerStatefulWidget {
   const LocationWidget({super.key});
@@ -99,8 +101,8 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
     },
     {
       "id": 7,
-      "name": '대만두?',
-      "info": "D동 에스컬레이터",
+      "name": '일갑자찬음',
+      "info": "월요일 오전 10시에 방문할 핵 존맛 만두가게",
       'x': 37.48502640,
       'y': 127.01627176,
       "image": ''
@@ -150,19 +152,21 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
               final marker = Marker(
                 markerId: MarkerId('fixed_$id'),
                 position: LatLng(fm['x'], fm['y']),
-                infoWindow: InfoWindow(
-                  title: fm['name'],
-                  snippet: fm['info'],
-                ),
                 icon: isSelected
                     ? BitmapDescriptor.defaultMarkerWithHue(
                     BitmapDescriptor.hueViolet)
                     : BitmapDescriptor.defaultMarkerWithHue(
                     BitmapDescriptor.hueYellow),
                 onTap: () {
-                  setState(() {
-                    _selectedMarkerId = 'fixed_$id';
-                  });
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (_) => FixedMarkerBottomSheet(
+                      fixedName: fm['name'],
+                      content: fm['info'],
+                      imageUrl: AppImages.mokup1,
+                    ),
+                  );
                 },
               );
               _markerMap['fixed_$id'] = marker;

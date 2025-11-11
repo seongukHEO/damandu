@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:label="damandu"
+        android:label="대만두"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
