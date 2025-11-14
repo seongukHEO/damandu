@@ -10,20 +10,28 @@ class WeatherWidget extends StatefulWidget {
 
 class _WeatherWidgetState extends State<WeatherWidget> {
   final Dio _dio = Dio();
-  final String _apiKey = 'c0f8a9d3d339beeb8930642d1c1a5c5a'; // ✅ OpenWeatherMap API 키
+  final String _apiKey = 'c0f8a9d3d339beeb8930642d1c1a5c5a';
 
   Map<String, dynamic>? _weatherData;
   bool _isLoading = false;
 
+  // ✅ 라임골드 팔레트
+  static const Map<int, Color> _limeGold = {
+    1: Color(0xFFF9FFE8),
+    2: Color(0xFFEBFFB9),
+    3: Color(0xFFDBFF84),
+    4: Color(0xFFAAEB44),
+    5: Color(0xFF89C83A),
+    6: Color(0xFF6BA32F),
+    7: Color(0xFF4F7A23),
+  };
+
   Future<void> _fetchWeather() async {
     setState(() => _isLoading = true);
-
     try {
-      // ✅ 타이베이 고정 좌표
       const double taipeiLat = 25.0330;
       const double taipeiLon = 121.5654;
 
-      // ✅ 무료 버전 /weather API 사용
       final response = await _dio.get(
         'https://api.openweathermap.org/data/2.5/weather',
         queryParameters: {
@@ -34,7 +42,6 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           'lang': 'kr',
         },
       );
-
       setState(() => _weatherData = response.data);
     } catch (e) {
       debugPrint('❌ 날씨 불러오기 실패: $e');
@@ -58,14 +65,23 @@ class _WeatherWidgetState extends State<WeatherWidget> {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
       decoration: BoxDecoration(
         color: const Color(0xFF213547),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white24),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: _limeGold[4]!.withOpacity(0.4), width: 1.2),
+        boxShadow: [
+          BoxShadow(
+            color: _limeGold[7]!.withOpacity(0.2),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       child: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.white))
+          ? const Center(
+        child: CircularProgressIndicator(color: Colors.white),
+      )
           : _weatherData == null
           ? const Center(
         child: Text(
@@ -77,15 +93,23 @@ class _WeatherWidgetState extends State<WeatherWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           // ✅ 도시 이름
-          const Text(
-            '🇹🇼 타이베이',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '🇹🇼 타이베이',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                  color: _limeGold[3],
+                ),
+              ),
+              const SizedBox(width: 6),
+              const Icon(Icons.location_on_outlined,
+                  color: Colors.white54, size: 16),
+            ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 8),
 
           // ✅ 날씨 설명 + 아이콘
           Row(
@@ -105,27 +129,37 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                   width: 42,
                   height: 42,
                   errorBuilder: (context, error, stack) =>
-                  const Icon(Icons.wb_sunny, color: Colors.white54),
+                  const Icon(Icons.wb_sunny,
+                      color: Colors.white54),
                 ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
 
           // ✅ 현재 온도
           Text(
             '${main?['temp']?.toStringAsFixed(1) ?? '--'}°C',
-            style: const TextStyle(
-              fontSize: 42,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
+            style: TextStyle(
+              fontSize: 46,
+              fontWeight: FontWeight.w900,
+              color: _limeGold[3],
+              shadows: [
+                Shadow(
+                  color: _limeGold[7]!.withOpacity(0.5),
+                  blurRadius: 12,
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
 
           // ✅ 체감온도 / 습도
           Text(
             '체감 ${main?['feels_like']?.toStringAsFixed(1) ?? '--'}°C',
-            style: const TextStyle(color: Colors.white70),
+            style: TextStyle(
+              color: _limeGold[2],
+              fontSize: 14,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
@@ -141,26 +175,31 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                 : snow != null
                 ? '적설량: ${snow['1h'] ?? snow['3h'] ?? 0} mm ❄️'
                 : '비/눈 없음 ☀️',
-            style: const TextStyle(color: Colors.white70),
+            style: TextStyle(
+              color: _limeGold[1],
+              fontSize: 14,
+            ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
           // ✅ 새로고침 버튼
           ElevatedButton.icon(
             onPressed: _isLoading ? null : _fetchWeather,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white24,
+              backgroundColor: _limeGold[4]!.withOpacity(0.2),
+              foregroundColor: _limeGold[3],
               padding: const EdgeInsets.symmetric(
-                  horizontal: 20, vertical: 10),
+                  horizontal: 24, vertical: 10),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
+                side: BorderSide(color: _limeGold[4]!),
               ),
+              elevation: 0,
             ),
-            icon: const Icon(Icons.refresh,
-                color: Colors.white, size: 18),
+            icon: const Icon(Icons.refresh, size: 18),
             label: const Text(
               '새로고침',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(fontWeight: FontWeight.w600),
             ),
           ),
         ],
@@ -168,3 +207,4 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     );
   }
 }
+

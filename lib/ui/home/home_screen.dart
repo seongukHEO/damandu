@@ -1,3 +1,4 @@
+import 'package:damandu/widget/calculator_widget.dart';
 import 'package:damandu/widget/location_widget.dart';
 import 'package:damandu/widget/schedule_widget.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               index: selectIndex,
               children: [
                 HomeWidget(),
+                CalculatorWidget(),
                 ScheduleWidget(),
                 LocationWidget(),
               ],
@@ -123,12 +125,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   _buildNavigationDestinationWithIndicator(
                     icon: selectIndex == 1
+                        ? Icon(Icons.calculate, color: AppColors.limeGold(7))
+                        : Icon(Icons.calculate_outlined, color: AppColors.limeGold(7).withOpacity(0.6)),
+                    label: "계산",
+                  ),
+                  _buildNavigationDestinationWithIndicator(
+                    icon: selectIndex == 2
                         ? Icon(Icons.calendar_month, color: AppColors.limeGold(7))
                         : Icon(Icons.calendar_month_outlined, color: AppColors.limeGold(7).withOpacity(0.6)),
                     label: "일정",
                   ),
                   _buildNavigationDestinationWithIndicator(
-                    icon: selectIndex == 2
+                    icon: selectIndex == 3
                         ? Icon(Icons.location_on_sharp, color: AppColors.limeGold(7))
                         : Icon(Icons.location_on_outlined, color: AppColors.limeGold(7).withOpacity(0.6)),
                     label: "위치 공유",
