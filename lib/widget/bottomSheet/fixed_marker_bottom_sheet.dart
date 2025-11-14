@@ -27,7 +27,7 @@ class _FixedMarkerBottomSheetState extends ConsumerState<FixedMarkerBottomSheet>
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.63,
+      height: MediaQuery.of(context).size.height * 0.6,
       width: double.infinity,
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(

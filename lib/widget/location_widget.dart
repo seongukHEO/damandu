@@ -112,7 +112,6 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('가족 위치 - 실시간')),
       body: SafeArea(
         child: _isLoading
             ? const Center(child: CircularProgressIndicator())

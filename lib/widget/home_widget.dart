@@ -1,3 +1,4 @@
+import 'package:damandu/widget/weather_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatelessWidget {
@@ -6,7 +7,13 @@ class HomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Container(color: Colors.red,)),
+      body: SafeArea(
+          child: Column(
+            children: [
+              WeatherWidget()
+            ],
+          )
+      ),
     );
   }
 }
