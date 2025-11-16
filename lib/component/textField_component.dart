@@ -24,7 +24,8 @@ class TextFieldComponent extends ConsumerStatefulWidget {
         this.onChanged,
         this.limitedLength = 20,
         this.onSubmitted,
-        this.onTap
+        this.onTap,
+        required TextInputType keyboardType
       });
 
   @override

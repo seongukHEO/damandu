@@ -29,8 +29,8 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   Future<void> _fetchWeather() async {
     setState(() => _isLoading = true);
     try {
-      const double taipeiLat = 25.0330;
-      const double taipeiLon = 121.5654;
+      const double taipeiLat = 25.0666;
+      const double taipeiLon = 121.5523;
 
       final response = await _dio.get(
         'https://api.openweathermap.org/data/2.5/weather',
@@ -138,7 +138,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
 
           // ✅ 현재 온도
           Text(
-            '${main?['temp']?.toStringAsFixed(1) ?? '--'}°C',
+            '${((main?['temp'] ?? 0) - 2).toStringAsFixed(1)}°C',
             style: TextStyle(
               fontSize: 46,
               fontWeight: FontWeight.w900,
@@ -155,7 +155,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
 
           // ✅ 체감온도 / 습도
           Text(
-            '체감 ${main?['feels_like']?.toStringAsFixed(1) ?? '--'}°C',
+            '체감 ${((main?['feels_like'] ?? 0) - 2).toStringAsFixed(1)}°C',
             style: TextStyle(
               color: _limeGold[2],
               fontSize: 14,
