@@ -1,6 +1,8 @@
+import 'package:damandu/router.dart';
 import 'package:damandu/widget/home/time_widget.dart';
 import 'package:damandu/widget/home/weather_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({super.key});
@@ -21,6 +23,11 @@ class HomeWidget extends StatelessWidget {
               ),
             ),
           )
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            context.push(RoutePath.addQuestion);
+          }
       ),
     );
   }

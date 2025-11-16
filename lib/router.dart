@@ -2,6 +2,7 @@
 
 
 import 'package:damandu/ui/home/home_screen.dart';
+import 'package:damandu/ui/test/upload_location_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import 'component/custom_transitions.dart';
@@ -14,6 +15,12 @@ final GoRouter router = GoRouter(
           path: RoutePath.home,
           builder: (context, state){
             return HomeScreen();
+          }
+      ),
+      GoRoute(
+          path: RoutePath.addQuestion,
+          builder: (context, state){
+            return UploadLocationScreen();
           }
       ),
     ],
