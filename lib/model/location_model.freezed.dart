@@ -21,7 +21,7 @@ LocationModel _$LocationModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LocationModel {
-  int? get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String get locationName => throw _privateConstructorUsedError;
   String get locationTitle => throw _privateConstructorUsedError;
   String get locationContent => throw _privateConstructorUsedError;
@@ -29,6 +29,8 @@ mixin _$LocationModel {
   double get lat => throw _privateConstructorUsedError;
   double get lng => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get docRef => throw _privateConstructorUsedError;
 
   /// Serializes this LocationModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,7 +50,7 @@ abstract class $LocationModelCopyWith<$Res> {
   ) = _$LocationModelCopyWithImpl<$Res, LocationModel>;
   @useResult
   $Res call({
-    int? id,
+    String? id,
     String locationName,
     String locationTitle,
     String locationContent,
@@ -56,6 +58,7 @@ abstract class $LocationModelCopyWith<$Res> {
     double lat,
     double lng,
     String? image,
+    @DocumentReferenceConverter() DocumentReference<Object?>? docRef,
   });
 }
 
@@ -82,13 +85,14 @@ class _$LocationModelCopyWithImpl<$Res, $Val extends LocationModel>
     Object? lat = null,
     Object? lng = null,
     Object? image = freezed,
+    Object? docRef = freezed,
   }) {
     return _then(
       _value.copyWith(
             id: freezed == id
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as String?,
             locationName: null == locationName
                 ? _value.locationName
                 : locationName // ignore: cast_nullable_to_non_nullable
@@ -117,6 +121,10 @@ class _$LocationModelCopyWithImpl<$Res, $Val extends LocationModel>
                 ? _value.image
                 : image // ignore: cast_nullable_to_non_nullable
                       as String?,
+            docRef: freezed == docRef
+                ? _value.docRef
+                : docRef // ignore: cast_nullable_to_non_nullable
+                      as DocumentReference<Object?>?,
           )
           as $Val,
     );
@@ -133,7 +141,7 @@ abstract class _$$LocationModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    int? id,
+    String? id,
     String locationName,
     String locationTitle,
     String locationContent,
@@ -141,6 +149,7 @@ abstract class _$$LocationModelImplCopyWith<$Res>
     double lat,
     double lng,
     String? image,
+    @DocumentReferenceConverter() DocumentReference<Object?>? docRef,
   });
 }
 
@@ -166,13 +175,14 @@ class __$$LocationModelImplCopyWithImpl<$Res>
     Object? lat = null,
     Object? lng = null,
     Object? image = freezed,
+    Object? docRef = freezed,
   }) {
     return _then(
       _$LocationModelImpl(
         id: freezed == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as String?,
         locationName: null == locationName
             ? _value.locationName
             : locationName // ignore: cast_nullable_to_non_nullable
@@ -201,6 +211,10 @@ class __$$LocationModelImplCopyWithImpl<$Res>
             ? _value.image
             : image // ignore: cast_nullable_to_non_nullable
                   as String?,
+        docRef: freezed == docRef
+            ? _value.docRef
+            : docRef // ignore: cast_nullable_to_non_nullable
+                  as DocumentReference<Object?>?,
       ),
     );
   }
@@ -218,13 +232,14 @@ class _$LocationModelImpl implements _LocationModel {
     this.lat = 35.0,
     this.lng = 133.0,
     this.image,
+    @DocumentReferenceConverter() this.docRef,
   });
 
   factory _$LocationModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$LocationModelImplFromJson(json);
 
   @override
-  final int? id;
+  final String? id;
   @override
   @JsonKey()
   final String locationName;
@@ -244,10 +259,13 @@ class _$LocationModelImpl implements _LocationModel {
   final double lng;
   @override
   final String? image;
+  @override
+  @DocumentReferenceConverter()
+  final DocumentReference<Object?>? docRef;
 
   @override
   String toString() {
-    return 'LocationModel(id: $id, locationName: $locationName, locationTitle: $locationTitle, locationContent: $locationContent, visitTime: $visitTime, lat: $lat, lng: $lng, image: $image)';
+    return 'LocationModel(id: $id, locationName: $locationName, locationTitle: $locationTitle, locationContent: $locationContent, visitTime: $visitTime, lat: $lat, lng: $lng, image: $image, docRef: $docRef)';
   }
 
   @override
@@ -266,7 +284,8 @@ class _$LocationModelImpl implements _LocationModel {
                 other.visitTime == visitTime) &&
             (identical(other.lat, lat) || other.lat == lat) &&
             (identical(other.lng, lng) || other.lng == lng) &&
-            (identical(other.image, image) || other.image == image));
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.docRef, docRef) || other.docRef == docRef));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -281,6 +300,7 @@ class _$LocationModelImpl implements _LocationModel {
     lat,
     lng,
     image,
+    docRef,
   );
 
   /// Create a copy of LocationModel
@@ -299,7 +319,7 @@ class _$LocationModelImpl implements _LocationModel {
 
 abstract class _LocationModel implements LocationModel {
   factory _LocationModel({
-    final int? id,
+    final String? id,
     final String locationName,
     final String locationTitle,
     final String locationContent,
@@ -307,13 +327,14 @@ abstract class _LocationModel implements LocationModel {
     final double lat,
     final double lng,
     final String? image,
+    @DocumentReferenceConverter() final DocumentReference<Object?>? docRef,
   }) = _$LocationModelImpl;
 
   factory _LocationModel.fromJson(Map<String, dynamic> json) =
       _$LocationModelImpl.fromJson;
 
   @override
-  int? get id;
+  String? get id;
   @override
   String get locationName;
   @override
@@ -328,6 +349,9 @@ abstract class _LocationModel implements LocationModel {
   double get lng;
   @override
   String? get image;
+  @override
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get docRef;
 
   /// Create a copy of LocationModel
   /// with the given fields replaced by the non-null parameter values.

@@ -8,7 +8,7 @@ part of 'location_model.dart';
 
 _$LocationModelImpl _$$LocationModelImplFromJson(Map<String, dynamic> json) =>
     _$LocationModelImpl(
-      id: (json['id'] as num?)?.toInt(),
+      id: json['id'] as String?,
       locationName: json['locationName'] as String? ?? '',
       locationTitle: json['locationTitle'] as String? ?? '',
       locationContent: json['locationContent'] as String? ?? '',
@@ -18,6 +18,9 @@ _$LocationModelImpl _$$LocationModelImplFromJson(Map<String, dynamic> json) =>
       lat: (json['lat'] as num?)?.toDouble() ?? 35.0,
       lng: (json['lng'] as num?)?.toDouble() ?? 133.0,
       image: json['image'] as String?,
+      docRef: const DocumentReferenceConverter().fromJson(
+        json['docRef'] as String?,
+      ),
     );
 
 Map<String, dynamic> _$$LocationModelImplToJson(_$LocationModelImpl instance) =>
@@ -30,4 +33,5 @@ Map<String, dynamic> _$$LocationModelImplToJson(_$LocationModelImpl instance) =>
       'lat': instance.lat,
       'lng': instance.lng,
       'image': instance.image,
+      'docRef': const DocumentReferenceConverter().toJson(instance.docRef),
     };

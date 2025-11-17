@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:damandu/model/location_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -336,63 +338,41 @@ class _UploadLocationScreenState extends ConsumerState<UploadLocationScreen> {
     );
   }
 
-  // Future _addQuestion(WidgetRef ref, BuildContext context) async {
-  //   final loading = ref.watch(isLoadingProvider.notifier);
-  //   final userModel = ref.read(getUserInfoFutureProvider);
-  //   final questionTitle = ref.watch(addTitleTextFieldProvider.notifier).getCurrentTitle();
-  //   final questionContent = ref.watch(addContentTextFieldProvider.notifier).getCurrentText();
-  //   final questionTopic = ref.watch(selectedTopicProvider.notifier).state;
+  // Future _addPost(WidgetRef ref, BuildContext context) async {
+  //   final docRef = FirebaseFirestore.instance.collection('location').doc().id;
+  //   final title = ref.watch(addTitleTextFieldProvider.notifier).getCurrentTitle();
+  //   final content = ref.watch(addContentTextFieldProvider.notifier).getCurrentText();
+  //   final location = ref.watch(addLocationTextFieldProvider.notifier).getCurrentText();
   //   final image = ref.watch(imageProvider);
   //
+  //   String? imageUrl;
   //
-  //   if (questionTitle.trim().isEmpty || questionContent.trim().isEmpty) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text("제목과 내용을 입력해주세요.")),
-  //     );
-  //     return;
-  //   }
-  //
-  //   loading.state = true;
-  //   try {
-  //     // 1) 질문 생성(이미지 없이)
-  //     final questionModel = QuestionModel(
-  //       contents: questionContent,
-  //       questionTopic: questionTopic ?? '',
-  //       questionImg: null,
-  //       createQuestion: DateTime.now(),
-  //       title: questionTitle,
-  //       questionClickCount: 0,
-  //       questionUid: '',              // 서버에서 생성 후 교체
-  //       questionFavorite: 0,
-  //       userUid: userModel.value?.uid ?? '',
-  //       user_id: userModel.value?.id,
-  //     );
-  //
-  //     final newId = await ref.read(questionDataSourceProvider).addQuestionToServer(questionModel);
-  //     if (newId == null) throw Exception('질문 생성 실패: ID 없음');
-  //
-  //     // 2) 이미지 있으면 업로드
-  //     String? imageUrl;
-  //     if (image != null) {
-  //       final path = await ref.read(questionDataSourceProvider).uploadQuestionImg(image, newId.toString());
-  //       final uri = Uri.parse(path);
-  //       final cleanPath = uri.path.contains('/founderimages/')
-  //           ? uri.path.split('/founderimages/').last
-  //           : uri.path;
-  //       imageUrl = 'http://20.39.192.136/api/imageDown/$cleanPath';
+  //   // ✅ 이미지 1장만 업로드
+  //   if (image.isNotEmpty) {
+  //     try {
+  //       imageUrl = await ref
+  //           .watch(postRepositoryProvider)
+  //           .uploadPostImageList(imageList.first, docRef, 0);
+  //     } catch (e) {
+  //       debugPrint("이미지 업로드 실패: $e");
+  //       imageUrl = null;
   //     }
-  //
-  //     final updated = questionModel.copyWith(
-  //       id: newId, // ✅ 서버에서 받은 id를 직접 넣기
-  //       questionImg: imageUrl,
-  //     );
-  //     await ref.read(questionDataSourceProvider).updateQuestionById(newId, updated);
-  //
-  //     loading.state = false;
-  //     addQuestionDialog(context, updated);
-  //   } catch (e) {
-  //     debugPrint('❌ 질문 저장 중 오류: $e');
-  //     loading.state = false;
   //   }
+  //
+  //   final locationModel = LocationModel(
+  //       locationName: location,
+  //       lat: 0.0,
+  //       lng: 0.0,
+  //       locationContent: content,
+  //       locationTitle: title,
+  //       visitTime: DateTime.now(),
+  //       image: ''
+  //   );
+  //
+  //
+  //   await ref.read(addPostFutureProvider(postModel).future);
+  //   _resetData(ref);
+  //   context.pop();
   // }
+
 }
