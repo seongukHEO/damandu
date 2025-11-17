@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:damandu/data/user_data_source.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -108,6 +109,10 @@ class AddContentTextFieldProvider extends StateNotifier<TextEditingController>{
 }
 final addContentTextFieldProvider = StateNotifierProvider<AddContentTextFieldProvider, TextEditingController>((ref){
   return AddContentTextFieldProvider();
+});
+
+final userDataSourceProvider = Provider((ref){
+  return UserDataSource(FirebaseFirestore.instance);
 });
 
 

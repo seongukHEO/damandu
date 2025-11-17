@@ -7,11 +7,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../model/user_model.dart';
 
 class UserDataSource {
-  final _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore firestore;
+
+  UserDataSource(this.firestore);
 
   /// 🔹 나(myId)를 제외한 모든 유저의 실시간 위치 스트림
   Stream<List<UserModel>> streamOtherUsers(int myId) {
-    return _firestore.collection('user').snapshots().map((snapshot) {
+    return firestore.collection('user').snapshots().map((snapshot) {
       return snapshot.docs
           .map((doc) => UserModel.fromDocument(doc))
           .where((user) => user.id != myId) // ✅ 내 id 제외
@@ -20,7 +22,7 @@ class UserDataSource {
   }
 
   Future<void>addPost(LocationModel locationModel)async{
-    final docRef = _firestore.collection('location').doc();
+    final docRef = firestore.collection('location').doc();
     final postModelInfo = locationModel.copyWith(docRef: docRef);
 
     await docRef.set(postModelInfo.toFirestore());
@@ -28,10 +30,10 @@ class UserDataSource {
 
 
   //이미지 저장
-  Future<String>uploadPostImageList(File image, String postUid, int index)async{
+  Future<String>uploadPostImageList(File image, String postUid)async{
     try {
       final storageRef = FirebaseStorage.instance.ref().child(
-          'location/$postUid/image_$index.jpg');
+          'location/$postUid/image_$postUid.jpg');
       await storageRef.putFile(image);
 
       final downloadUrl = await storageRef.getDownloadURL();

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:damandu/common/app_images.dart';
 import 'package:damandu/data/user_data_source.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
   void initState() {
     super.initState();
     _initLocation();
-    _userStream = UserDataSource().streamOtherUsers(myId);
+    _userStream = UserDataSource(FirebaseFirestore.instance).streamOtherUsers(myId);
   }
 
   Future<void> _initLocation() async {

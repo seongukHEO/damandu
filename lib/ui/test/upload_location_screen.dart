@@ -312,7 +312,7 @@ class _UploadLocationScreenState extends ConsumerState<UploadLocationScreen> {
                     padding: const EdgeInsets.fromLTRB(15, 10, 10, 15),
                     child: GestureDetector(
                       onTap: ()async{
-
+                        _addPost(ref, context);
                       },
                       child: Container(
                         width: double.infinity,
@@ -338,41 +338,40 @@ class _UploadLocationScreenState extends ConsumerState<UploadLocationScreen> {
     );
   }
 
-  // Future _addPost(WidgetRef ref, BuildContext context) async {
-  //   final docRef = FirebaseFirestore.instance.collection('location').doc().id;
-  //   final title = ref.watch(addTitleTextFieldProvider.notifier).getCurrentTitle();
-  //   final content = ref.watch(addContentTextFieldProvider.notifier).getCurrentText();
-  //   final location = ref.watch(addLocationTextFieldProvider.notifier).getCurrentText();
-  //   final image = ref.watch(imageProvider);
-  //
-  //   String? imageUrl;
-  //
-  //   // ✅ 이미지 1장만 업로드
-  //   if (image.isNotEmpty) {
-  //     try {
-  //       imageUrl = await ref
-  //           .watch(postRepositoryProvider)
-  //           .uploadPostImageList(imageList.first, docRef, 0);
-  //     } catch (e) {
-  //       debugPrint("이미지 업로드 실패: $e");
-  //       imageUrl = null;
-  //     }
-  //   }
-  //
-  //   final locationModel = LocationModel(
-  //       locationName: location,
-  //       lat: 0.0,
-  //       lng: 0.0,
-  //       locationContent: content,
-  //       locationTitle: title,
-  //       visitTime: DateTime.now(),
-  //       image: ''
-  //   );
-  //
-  //
-  //   await ref.read(addPostFutureProvider(postModel).future);
-  //   _resetData(ref);
-  //   context.pop();
-  // }
+  Future _addPost(WidgetRef ref, BuildContext context) async {
+    final docRef = FirebaseFirestore.instance.collection('location').doc().id;
+    final title = ref.watch(addTitleTextFieldProvider.notifier).getCurrentTitle();
+    final content = ref.watch(addContentTextFieldProvider.notifier).getCurrentText();
+    final location = ref.watch(addLocationTextFieldProvider.notifier).getCurrentText();
+    final image = ref.watch(imageProvider); // ✅ File? 타입
+    String? imageUrl;
+
+    try {
+      if (image != null) {
+        imageUrl = await ref
+            .watch(userDataSourceProvider)
+            .uploadPostImageList(image, docRef); // ✅ File 전달
+      }
+    } catch (e) {
+      debugPrint("이미지 업로드 실패: $e");
+      imageUrl = null;
+    }
+
+
+    final locationModel = LocationModel(
+        locationName: location,
+        lat: 0.0,
+        lng: 0.0,
+        locationContent: content,
+        locationTitle: title,
+        visitTime: DateTime.now(),
+        image: imageUrl
+    );
+
+
+    await ref.read(userDataSourceProvider).addPost(locationModel);
+    //_resetData(ref);
+    context.pop();
+  }
 
 }
