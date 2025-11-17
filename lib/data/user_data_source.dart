@@ -43,4 +43,24 @@ class UserDataSource {
     }
   }
 
+  /// 🔹 선택한 날짜(visitTime 기준)에 해당하는 location 문서들만 불러오기
+  Future<List<LocationModel>> fetchLocationsByDate(DateTime selectedDate) async {
+    final startOfDay = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+    final endOfDay = startOfDay.add(const Duration(days: 1));
+
+    final snapshot = await FirebaseFirestore.instance
+        .collection('location')
+        .where('visitTime', isGreaterThanOrEqualTo: startOfDay)
+        .where('visitTime', isLessThan: endOfDay)
+        .orderBy('visitTime', descending: false)
+        .get();
+
+    final locations = snapshot.docs
+        .map((doc) => LocationModel.fromDocument(doc))
+        .toList();
+
+    return locations;
+  }
+
+
 }

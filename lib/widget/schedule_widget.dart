@@ -1,34 +1,32 @@
 import 'package:damandu/common/app_colors.dart';
+import 'package:damandu/provider/home/home_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class ScheduleWidget extends StatefulWidget {
+import '../model/location_model.dart';
+
+class ScheduleWidget extends ConsumerStatefulWidget {
   const ScheduleWidget({super.key});
 
   @override
-  State<ScheduleWidget> createState() => _ScheduleWidgetState();
+  ConsumerState<ScheduleWidget> createState() => _ScheduleWidgetState();
 }
 
-class _ScheduleWidgetState extends State<ScheduleWidget> {
+class _ScheduleWidgetState extends ConsumerState<ScheduleWidget> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  // ✅ 임시 일정 데이터 (나중에 Firestore로 대체 가능)
-  final Map<DateTime, List<String>> _events = {
-    DateTime.utc(2025, 11, 15): ['회의', '프로젝트 정리'],
-    DateTime.utc(2025, 11, 16): ['대만 여행 일정 확인'],
-    DateTime.utc(2025, 11, 17): ['팀 회의', '앱 업데이트 검토'],
-  };
-
-  List<String> _getEventsForDay(DateTime day) {
-    return _events[DateTime.utc(day.year, day.month, day.day)] ?? [];
+  Future<List<LocationModel>> _getEventsForDay(DateTime day) async {
+    return await ref.watch (userDataSourceProvider).fetchLocationsByDate(day);
   }
+
 
   @override
   Widget build(BuildContext context) {
-    final selectedEvents = _getEventsForDay(_selectedDay ?? _focusedDay);
+    final targetDay = _selectedDay ?? _focusedDay;
 
     return Scaffold(
       body: SafeArea(
@@ -36,7 +34,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              // ✅ 상단 달력
+              // ✅ 달력
               TableCalendar(
                 locale: 'ko_KR',
                 firstDay: DateTime.utc(2020, 1, 1),
@@ -58,8 +56,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                     fontWeight: FontWeight.bold,
                   ),
                   leftChevronIcon: Icon(Icons.chevron_left, color: Colors.white),
-                  rightChevronIcon:
-                  Icon(Icons.chevron_right, color: Colors.white),
+                  rightChevronIcon: Icon(Icons.chevron_right, color: Colors.white),
                 ),
                 calendarStyle: CalendarStyle(
                   todayDecoration: BoxDecoration(
@@ -67,7 +64,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                     shape: BoxShape.circle,
                   ),
                   selectedDecoration: BoxDecoration(
-                    color: Color(0xFFAAEB44), // limeGold(4)
+                    color: Color(0xFFAAEB44),
                     shape: BoxShape.circle,
                   ),
                   defaultTextStyle: TextStyle(color: Colors.black),
@@ -75,52 +72,60 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                 ),
               ),
               const SizedBox(height: 8),
-              Divider(height: 1, color: Colors.grey.shade400,),
+              Divider(height: 1, color: Colors.grey.shade400),
               const SizedBox(height: 8),
 
-              // ✅ 하단 일정 목록
+              // ✅ Firestore에서 일정 불러오기
               Expanded(
-                child: selectedEvents.isEmpty
-                    ? const Center(
-                  child: Text(
-                    '일정이 없습니다.',
-                    style:
-                    TextStyle(color: Colors.white54, fontSize: 16),
-                  ),
-                )
-                    : ListView.builder(
-                  itemCount: selectedEvents.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          decoration: BoxDecoration(
-                            color: AppColors.limeGold(2),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.grey),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.event_note,
-                                    color: Colors.black, size: 20),
-                                const SizedBox(width: 10),
-                                Text(
-                                  selectedEvents[index],
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                child: FutureBuilder<List<LocationModel>>(
+                  future: _getEventsForDay(targetDay),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(
+                        child: Text('일정이 없습니다.', style: TextStyle(color: Colors.white54, fontSize: 16)),
+                      );
+                    }
+
+                    final events = snapshot.data!;
+
+                    return ListView.builder(
+                      itemCount: events.length,
+                      itemBuilder: (context, index) {
+                        final event = events[index];
+                        return Column(
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              decoration: BoxDecoration(
+                                color: AppColors.limeGold(2),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.grey),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.event_note, color: Colors.black, size: 20),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      event.locationTitle, // ✅ Firestore 데이터 표시
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                        SizedBox(height: 15,)
-                      ],
+                            const SizedBox(height: 15),
+                          ],
+                        );
+                      },
                     );
                   },
                 ),
@@ -131,4 +136,5 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
       ),
     );
   }
+
 }
