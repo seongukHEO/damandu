@@ -62,5 +62,17 @@ class UserDataSource {
     return locations;
   }
 
+  Future<List<LocationModel>> fetchLocations() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('location')
+        .get();
+
+    final locations = snapshot.docs
+        .map((doc) => LocationModel.fromDocument(doc))
+        .toList();
+
+    return locations;
+  }
+
 
 }
