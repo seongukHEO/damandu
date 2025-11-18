@@ -1,9 +1,11 @@
 import 'package:damandu/common/app_colors.dart';
 import 'package:damandu/provider/home/home_provider.dart';
+import 'package:damandu/router.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../model/location_model.dart';
@@ -95,35 +97,40 @@ class _ScheduleWidgetState extends ConsumerState<ScheduleWidget> {
                       itemCount: events.length,
                       itemBuilder: (context, index) {
                         final event = events[index];
-                        return Column(
-                          children: [
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              decoration: BoxDecoration(
-                                color: AppColors.limeGold(2),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.grey),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    const Icon(Icons.event_note, color: Colors.black, size: 20),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      event.locationTitle, // ✅ Firestore 데이터 표시
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
+                        return InkWell(
+                          onTap: (){
+                            context.push(RoutePath.locationDetail, extra: event);
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                height: MediaQuery.of(context).size.height * 0.1,
+                                decoration: BoxDecoration(
+                                  color: AppColors.limeGold(2),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.grey),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.event_note, color: Colors.black, size: 20),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        event.locationTitle, // ✅ Firestore 데이터 표시
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 15),
-                          ],
+                              const SizedBox(height: 15),
+                            ],
+                          ),
                         );
                       },
                     );

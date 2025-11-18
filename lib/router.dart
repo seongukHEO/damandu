@@ -1,7 +1,9 @@
 
 
 
+import 'package:damandu/model/location_model.dart';
 import 'package:damandu/ui/home/home_screen.dart';
+import 'package:damandu/ui/location/location_detail_screen.dart';
 import 'package:damandu/ui/test/upload_location_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,6 +25,14 @@ final GoRouter router = GoRouter(
             return UploadLocationScreen();
           }
       ),
+      GoRoute(
+          path: RoutePath.locationDetail,
+          builder: (context, state){
+            return LocationDetailScreen(
+              locationModel: state.extra as LocationModel,
+            );
+          }
+      ),
     ],
   observers: [
     GoRouterObserver()
@@ -41,11 +51,9 @@ class RoutePath {
 
   static const String login = '/login';
 
-  static const String loginProcess = '/loginProcess';
-
   static const String addQuestion = '/addQuestion';
 
-  static const String postDetail = '/postDetail';
+  static const String locationDetail = '/locationDetail';
 
   static const String modifyUser = '/modifyUser';
 
