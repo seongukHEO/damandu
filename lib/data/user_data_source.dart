@@ -5,21 +5,27 @@ import 'package:damandu/model/location_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../model/user_model.dart';
+import '../provider/shared_preference_provider.dart';
 
 class UserDataSource {
   final FirebaseFirestore firestore;
 
   UserDataSource(this.firestore);
 
-  /// 🔹 나(myId)를 제외한 모든 유저의 실시간 위치 스트림
-  Stream<List<UserModel>> streamOtherUsers(int myId) {
-    return firestore.collection('user').snapshots().map((snapshot) {
+  Stream<List<UserModel>> streamOtherUsers() async* {
+    // 1) SharedPreferences에서 uid 가져오기
+    final uuid = await SharedPreferenceProvider.getUid();
+    final uid = int.parse(uuid ?? '0');
+
+    // 2) Firestore 스트림을 그대로 이어붙이기
+    yield* firestore.collection('user').snapshots().map((snapshot) {
       return snapshot.docs
           .map((doc) => UserModel.fromDocument(doc))
-          .where((user) => user.id != myId) // ✅ 내 id 제외
+          .where((user) => user.id != uid) // 내 id 제외
           .toList();
     });
   }
+
 
   Future<void>addPost(LocationModel locationModel)async{
     final docRef = firestore.collection('location').doc();

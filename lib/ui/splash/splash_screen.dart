@@ -1,3 +1,4 @@
+import 'package:damandu/common/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -71,9 +72,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF5A3E2B), Color(0xFFD6BFA2)],
+            colors: [AppColors.limeGold(6), AppColors.limeGold(2),],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -100,7 +101,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     '최고의 만두를 찾아 대만두',
                     style: GoogleFonts.playfairDisplay(
                       fontSize: 16,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       color: Colors.white.withOpacity(0.9),
                     ),
                   ),

@@ -27,7 +27,6 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
   bool _isLoading = true;
 
   final Map<String, Marker> _markerMap = {};
-  final int myId = 1; // SharedPreferences로 교체 예정
   late final Stream<List<UserModel>> _userStream;
 
   // ✅ 클릭된 마커 ID 저장
@@ -37,7 +36,7 @@ class _LocationWidgetState extends ConsumerState<LocationWidget> {
   void initState() {
     super.initState();
     _initLocation();
-    _userStream = UserDataSource(FirebaseFirestore.instance).streamOtherUsers(myId);
+    _userStream = UserDataSource(FirebaseFirestore.instance).streamOtherUsers();
   }
 
   Future<void> _initLocation() async {
