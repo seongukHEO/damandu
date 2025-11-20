@@ -4,6 +4,7 @@
 import 'package:damandu/model/location_model.dart';
 import 'package:damandu/ui/home/home_screen.dart';
 import 'package:damandu/ui/location/location_detail_screen.dart';
+import 'package:damandu/ui/splash/select_info_screen.dart';
 import 'package:damandu/ui/test/upload_location_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,8 +12,14 @@ import 'component/custom_transitions.dart';
 
 
 final GoRouter router = GoRouter(
-  initialLocation: RoutePath.home,
+  initialLocation: RoutePath.login,
     routes: [
+      GoRoute(
+          path: RoutePath.login,
+          builder: (context, state){
+            return SelectInfoScreen();
+          }
+      ),
       GoRoute(
           path: RoutePath.home,
           builder: (context, state){

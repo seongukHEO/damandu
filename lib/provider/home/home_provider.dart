@@ -116,3 +116,17 @@ final userDataSourceProvider = Provider((ref){
 });
 
 
+// 선택된 토픽을 관리 하는 StateProvider
+final selectedTopicProvider = StateProvider<String?>((ref) => null);
+
+final firstSelectedTopicProvider = StateProvider<String?>((ref) => '1');
+
+final secondSelectedTopicProvider = StateProvider<String?>((ref) => '2');
+
+final thirdSelectedTopicProvider = StateProvider<String?>((ref) => '3');
+
+final fourthSelectedTopicProvider = StateProvider<String?>((ref) => '4');
+
+
+
+

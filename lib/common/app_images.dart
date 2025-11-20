@@ -12,6 +12,8 @@ class AppImages {
 
   static const mokup1 = '$_imagePath/mokup_1.jpeg';
 
+  static const damandu = '$_imagePath/damandu_logo.png';
+
   static const mok1 = '$_imagePath/mok_one.jpg';
 
   static const mok2 = '$_imagePath/mok_two.jpg';

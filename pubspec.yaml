@@ -82,6 +82,7 @@ flutter:
     - assets/
     - assets/icon/
     - assets/image/
+    - assets/image/damandu_logo.png
 
 
   fonts:
