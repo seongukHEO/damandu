@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../provider/shared_preference_provider.dart';
+
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
@@ -12,7 +14,7 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
-  String fullText = "GoldBarrel";
+  String fullText = "대만두";
   String displayText = "";
   double subtitleOpacity = 0.0;
   bool hasNavigated = false;
@@ -23,7 +25,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     _animateText();
   }
 
+  /// 🔥 텍스트 애니메이션 + 로그인 체크 순서
   void _animateText() async {
+    // 글자 출력
     for (int i = 0; i <= fullText.length; i++) {
       await Future.delayed(const Duration(milliseconds: 150));
       if (!mounted) return;
@@ -32,36 +36,39 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       });
     }
 
+    // 부제 Fade-in
     await Future.delayed(const Duration(milliseconds: 300));
     if (mounted) {
       setState(() {
         subtitleOpacity = 1.0;
       });
     }
+
+    // 🔥 애니메이션이 끝난 후 로그인 체크
+    await Future.delayed(const Duration(milliseconds: 800));
+    _checkLogin();
+  }
+
+  /// 🔥 uid 여부 체크
+  Future<void> _checkLogin() async {
+    if (hasNavigated) return;
+
+    final uid = await SharedPreferenceProvider.getUid();
+    debugPrint("🔍 Splash UID: $uid");
+
+    hasNavigated = true;
+
+    if (!mounted) return;
+
+    if (uid != null && uid.isNotEmpty) {
+      context.go(RoutePath.home);
+    } else {
+      context.go(RoutePath.login);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // // 로그인 상태 모니터링
-    // ref.listen<AsyncValue<bool>>(splashViewModelProvider, (_, state) {
-    //   if (hasNavigated) return;
-    //
-    //   state.when(
-    //     data: (isLoggedIn) {
-    //       hasNavigated = true;
-    //       context.go(isLoggedIn ? RoutePath.home : RoutePath.login);
-    //     },
-    //     loading: () {
-    //       debugPrint("SplashScreen: Loading user state...");
-    //     },
-    //     error: (error, _) {
-    //       hasNavigated = true;
-    //       debugPrint("SplashScreen: Error - $error");
-    //       context.go(RoutePath.login);
-    //     },
-    //   );
-    // });
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -90,7 +97,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   opacity: subtitleOpacity,
                   duration: const Duration(seconds: 1),
                   child: Text(
-                    '한 잔의 멋과 품격을 담다',
+                    '최고의 만두를 찾아 대만두',
                     style: GoogleFonts.playfairDisplay(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
