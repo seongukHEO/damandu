@@ -117,7 +117,7 @@ class _ScheduleWidgetState extends ConsumerState<ScheduleWidget> {
                                       const Icon(Icons.event_note, color: Colors.black, size: 20),
                                       const SizedBox(width: 10),
                                       Text(
-                                        event.locationTitle, // ✅ Firestore 데이터 표시
+                                        event.locationName, // ✅ Firestore 데이터 표시
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 16,
