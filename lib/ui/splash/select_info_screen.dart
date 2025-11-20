@@ -2,8 +2,12 @@ import 'package:damandu/common/app_colors.dart';
 import 'package:damandu/common/app_fonts.dart';
 import 'package:damandu/common/app_images.dart';
 import 'package:damandu/provider/home/home_provider.dart';
+import 'package:damandu/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../provider/shared_preference_provider.dart';
 
 class SelectInfoScreen extends ConsumerStatefulWidget {
   const SelectInfoScreen({super.key});
@@ -62,7 +66,14 @@ class _SelectInfoScreenState extends ConsumerState<SelectInfoScreen> {
                     SafeArea(
                       child: GestureDetector(
                         onTap: ()async{
+                          final uid = ref.read(firstSelectedTopicProvider); // value 그대로 uid임
 
+                          if (uid != null) {
+                            await SharedPreferenceProvider.saveUid(uid);
+                            final uuid = await SharedPreferenceProvider.getUid();
+                            debugPrint('✅ 로그인 성공: UID=${uuid}');
+                            context.push(RoutePath.home);
+                          }
                         },
                         child: Container(
                           width: double.infinity,

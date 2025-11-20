@@ -3,6 +3,10 @@ import 'package:damandu/widget/home/time_widget.dart';
 import 'package:damandu/widget/home/weather_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../common/shared_preference_keys.dart';
+import '../provider/shared_preference_provider.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({super.key});
@@ -25,8 +29,11 @@ class HomeWidget extends StatelessWidget {
           )
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            context.push(RoutePath.addQuestion);
+          onPressed: ()async{
+            //context.push(RoutePath.addQuestion);
+            final sharedPreferences = await SharedPreferences.getInstance();
+            final userUid = sharedPreferences.getString(SharedPreferenceKeys.userUid);
+            debugPrint('userUid 저장됨 : ${userUid}');
           }
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:damandu/damandu_app.dart';
+import 'package:damandu/provider/shared_preference_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,18 +32,10 @@ void main() async {
   );
 
 
-  // runApp(
-  //   ProviderScope(
-  //     overrides: [
-  //       authProvider.overrideWithValue(AuthService()),
-  //     ],
-  //     child: GoldbarrelApp(),
-  //   ),
-  // );
 }
 
 Future<void> _initializeServices() async {
-  // await SharedPreferenceProvider.init();
+   await SharedPreferenceProvider.init();
   // await dotenv.load(fileName: 'assets/etc/.env');
   await initializeDateFormatting('ko_KR', null); // ✅ 매개변수 이름 없이
 
