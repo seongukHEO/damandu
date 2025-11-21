@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- ✅ 위치 권한 추가 -->
+    <!-- 항상 필요한 기본 위치 권한 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- 📌 백그라운드 위치 권한 (안 넣으면 백그라운드 절대 안 됨) -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:label="대만두"

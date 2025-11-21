@@ -28,14 +28,14 @@ class HomeWidget extends StatelessWidget {
             ),
           )
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: ()async{
-            //context.push(RoutePath.addQuestion);
-            final sharedPreferences = await SharedPreferences.getInstance();
-            final userUid = sharedPreferences.getString(SharedPreferenceKeys.userUid);
-            debugPrint('userUid 저장됨 : ${userUid}');
-          }
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //     onPressed: ()async{
+      //       //context.push(RoutePath.addQuestion);
+      //       final sharedPreferences = await SharedPreferences.getInstance();
+      //       final userUid = sharedPreferences.getString(SharedPreferenceKeys.userUid);
+      //       debugPrint('userUid 저장됨 : ${userUid}');
+      //     }
+      // ),
     );
   }
 }

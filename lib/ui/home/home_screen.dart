@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/app_colors.dart';
 import '../../common/app_fonts.dart';
-import '../../core/location/background_location_service.dart';
 import '../../provider/home/home_provider.dart';
 import '../../widget/home_widget.dart';
 
