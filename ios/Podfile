@@ -60,11 +60,4 @@ post_install do |installer|
       end
     end
   end
-
-  # ✅ gRPC 최신 버전 명시 (Firebase 내부 호환성 유지)
-  installer.pod_targets.each do |pod|
-    if pod.name == 'gRPC-C++'
-      pod.root_spec.attributes_hash['version'] = '1.63.0'
-    end
-  end
 end

@@ -1316,7 +1316,7 @@ PODS:
   - GoogleUtilities/UserDefaults (8.1.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - "gRPC-C++ (1.63.0)":
+  - "gRPC-C++ (1.69.0)":
     - "gRPC-C++/Implementation (= 1.69.0)"
     - "gRPC-C++/Interface (= 1.69.0)"
   - "gRPC-C++/Implementation (1.69.0)":
@@ -1561,6 +1561,6 @@ SPEC CHECKSUMS:
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   url_launcher_ios: 7a95fa5b60cc718a708b8f2966718e93db0cef1b
 
-PODFILE CHECKSUM: 8989b250d3197c5372c43798c079126b283c2843
+PODFILE CHECKSUM: 778f09b987f126ade63a8898fd5b7e94bc4de357
 
 COCOAPODS: 1.16.2
